@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riyad us Saliheen Notes</title>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #16a085;
+      --bg-color: #f4f7f6;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 24px;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 24px;
+    }
+
+    /* Tab navigation styling */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 8px;
+    }
+
+    .tab-btn {
+      background-color: #eef2f5;
+      border: none;
+      outline: none;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-color);
+      border-radius: 6px 6px 0 0;
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .tab-btn:hover {
+      background-color: #dce4ec;
+    }
+
+    .tab-btn.active {
+      background-color: var(--secondary-color);
+      color: #ffffff;
+    }
+
+    /* Content styling */
+    .tab-content {
+      display: none;
+      padding: 20px 8px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .content-block {
+      line-height: 1.6;
+    }
+
+    ul, ol {
+      margin-top: 8px;
+      padding-left: 24px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 id="book-title"></h1>
+    
+    <div class="tabs" id="tabs-container"></div>
+
+    <div id="content-container"></div>
+  </div>
+
+  <script>
+    // Embedded JSON Data
+    const notesData = {
+      "title": "Riyad us Saliheen By Imam An Nawawi",
+      "chapters": [
+        {
+          "id": "chapter-1",
+          "title": "Chapter 1: Ikhlas (Sincerity)",
+          "content": [
+            "Every action is judged by its intentions.",
+            "When you intend to do good and do not do it, you are rewarded with 1 good deed and a white dot is placed on your heart.",
+            "When you intend to do good and perform it, you are rewarded with 10 good deeds up to 700 times.",
+            "When you intend to do evil but stop yourself, then you are rewarded with 1 good deed.",
+            "When you intend to do evil and perform it, then you are punished with 1 bad deed and a black dot is placed on your heart."
+          ]
+        },
+        {
+          "id": "chapter-2",
+          "title": "Chapter 2: Tawbah (Repentance)",
+          "content": [
+            "When you ask for forgiveness to Al Ghafoor or Al Ghafar, it is covered up.",
+            "When you ask for pardon to Al Afuw, it is erased.",
+            "When you repent to At Tawab, it is changed to a good deed."
+          ],
+          "sectionTitle": "The conditions of an accepted repentance:",
+          "list": [
+            "Ask for forgiveness",
+            "Regret the sin",
+            "Stop the sin",
+            "Do not commit the sin again",
+            "Do it with complete sincerity"
+          ]
+        },
+        {
+          "id": "chapter-3",
+          "title": "Chapter 3: Sabr (Patience)",
+          "content": [
+            "Patience is acting the same in easy and in difficulty.",
+            "Allah says to ask for help in patience and salah.",
+            "It is difficult except for those who have khushu.",
+            "Knowing that they are meeting with Allah their Master."
+          ]
+        },
+        {
+          "id": "chapter-4",
+          "title": "Chapter 4: Sidq (Truthfulness)",
+          "content": [
+            "Speaking the truth and standing up for the truth."
+          ],
+          "sectionTitle": "The 4 types of people of Jannah:",
+          "list": [
+            "The Prophets",
+            "The Truthful",
+            "The Martyrs",
+            "The Righteous"
+          ]
+        },
+        {
+          "id": "chapter-5",
+          "title": "Chapter 5: Muraqaba (Vigilance)",
+          "content": [
+            "To have Ihsan."
+          ],
+          "sectionTitle": "There are three levels of the deen:",
+          "nestedLists": [
+            {
+              "heading": "Islam",
+              "items": [
+                "To believe in one God Allah and Muhammad is the Messenger of Allah",
+                "Pray 5 times a day",
+                "Pay Zakat",
+                "Fast Ramadan",
+                "Perform Hajj"
+              ]
+            },
+            {
+              "heading": "Iman",
+              "items": [
+                "Belief in Allah",
+                "Belief in Angels",
+                "Belief in Books",
+                "Belief in Messengers",
+                "Belief in Last Day",
+                "Belief in Qadr"
+              ]
+            },
+            {
+              "heading": "Ihsan",
+              "items": [
+                "To worship Allah as if you can see Him or know that Allah sees you"
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    // Render Website Content dynamically from JSON
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("book-title").textContent = notesData.title;
+
+      const tabsContainer = document.getElementById("tabs-container");
+      const contentContainer = document.getElementById("content-container");
+
+      notesData.chapters.forEach((chapter, index) => {
+        // Create Tab Button
+        const button = document.createElement("button");
+        button.className = `tab-btn ${index === 0 ? 'active' : ''}`;
+        button.textContent = `Ch ${index + 1}`;
+        button.setAttribute("onclick", `openTab(event, '${chapter.id}')`);
+        tabsContainer.appendChild(button);
+
+        // Create Content Panel
+        const contentDiv = document.createElement("div");
+        contentDiv.id = chapter.id;
+        contentDiv.className = `tab-content ${index === 0 ? 'active' : ''}`;
+
+        let innerHTML = `<h2>${chapter.title}</h2><div class="content-block">`;
+
+        if (chapter.content) {
+          chapter.content.forEach(p => {
+            innerHTML += `<p>${p}</p>`;
+          });
+        }
+
+        if (chapter.sectionTitle) {
+          innerHTML += `<strong>${chapter.sectionTitle}</strong>`;
+        }
+
+        if (chapter.list) {
+          innerHTML += `<ul>`;
+          chapter.list.forEach(item => {
+            innerHTML += `<li>${item}</li>`;
+          });
+          innerHTML += `</ul>`;
+        }
+
+        if (chapter.nestedLists) {
+          chapter.nestedLists.forEach(group => {
+            innerHTML += `<h3>${group.heading}</h3><ol>`;
+            group.items.forEach(item => {
+              innerHTML += `<li>${item}</li>`;
+            });
+            innerHTML += `</ol>`;
+          });
+        }
+
+        innerHTML += `</div>`;
+        contentDiv.innerHTML = innerHTML;
+        contentContainer.appendChild(contentDiv);
+      });
+    });
+
+    // JavaScript Tab Switching Function
+    function openTab(evt, chapterId) {
+      const tabContents = document.getElementsByClassName("tab-content");
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove("active");
+      }
+
+      const tabButtons = document.getElementsByClassName("tab-btn");
+      for (let i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].classList.remove("active");
+      }
+
+      document.getElementById(chapterId).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+  </script>
+</body>
+</html>
